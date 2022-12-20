@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-3">
+    <span class="hipster img-fluid rounded"></span>
+  </div>
+
+  <div class="col-md-9">
+    <h1 class="display-4"><span jhiTranslate="home.title">Dobrodošli, Java Hipsteru!</span> (Store)</h1>
+
+    <p class="lead" jhiTranslate="home.subtitle">Ovo je Vaša početna stranica</p>
+
+    <div [ngSwitch]="account !== null">
+      <div class="alert alert-success" *ngSwitchCase="true">
+        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
+          >Prijavljeni ste kao korisnik "{{ account.login }}".</span
+        >
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.authenticated.prefix">Ako želite da se </span>
+        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">prijavite</a
+        ><span jhiTranslate="global.messages.info.authenticated.suffix"
+          >, možete probati sa univerzanlnim korisničkim nalozima:<br />- Administrator (korisničko ime="admin" i lozinka="admin") <br />-
+          User (korisničko ime="user" i lozinka="user").</span
+        >
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.register.noaccount">Još uvek nemate profil?</span>&nbsp;
+        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Registrujte svoj profil</a>
+      </div>
+    </div>
+
+    <p jhiTranslate="home.question">Ako imate bilo kakva pitanja o JHipster-u:</p>
+
+    <ul>
+      <li>
+        <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
+          >JHipster početna stranica</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://stackoverflow.com/tags/jhipster/info"
+          target="_blank"
+          rel="noopener noreferrer"
+          jhiTranslate="home.link.stackoverflow"
+          >JHipster na Stack Overflow</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/jhipster/generator-jhipster/issues?state=open"
+          target="_blank"
+          rel="noopener noreferrer"
+          jhiTranslate="home.link.bugtracker"
+          >JHipster tragač za greškama</a
+        >
+      </li>
+      <li>
+        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.chat"
+          >JHipster javni čet</a
+        >
+      </li>
+      <li>
+        <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.follow"
+          >pratite @jhipster na Twitter-u</a
+        >
+      </li>
+    </ul>
+
+    <p>
+      <span jhiTranslate="home.like">Ako Vam se dopada JHipster, ne zaboravite da nam date zvezdicu na</span>
+      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
+        >GitHub-u</a
+      >!
+    </p>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div>
+  <h2 id="tracker-page-heading" jhiTranslate="tracker.title">Aktivnost korisnika u realnom vremenu</h2>
+
+  <div class="table-responsive">
+    <table class="table table-striped" aria-describedby="tracker-page-heading">
+      <thead>
+        <tr>
+          <th scope="col" jhiTranslate="tracker.table.userlogin">Korisničko ime</th>
+          <th scope="col" jhiTranslate="tracker.table.ipaddress">IP adresa</th>
+          <th scope="col" jhiTranslate="tracker.table.page">Trenutna stranica</th>
+          <th scope="col" jhiTranslate="tracker.table.time">Vreme</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of activities">
+          <td>{{ activity.userLogin }}</td>
+          <td>{{ activity.ipAddress }}</td>
+          <td>{{ activity.page }}</td>
+          <td>{{ activity.time | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
