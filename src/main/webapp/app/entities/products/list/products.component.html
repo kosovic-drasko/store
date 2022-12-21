@@ -19,7 +19,15 @@
       </button>
     </div>
   </h2>
-
+  <input
+    type="text"
+    class="form-control"
+    name="articalName"
+    id="field_articalName"
+    data-cy="articalName"
+    [(ngModel)]="articalName"
+    (input)="loadName()"
+  />
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
@@ -62,7 +70,6 @@
           </td>
           <td>{{ products.articalName }}</td>
           <td>{{ products.articalPrice }}</td>
-
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -93,14 +100,6 @@
           </td>
         </tr>
       </tbody>
-
-      <tfoot>
-        <tr>
-          <td></td>
-          <td>Ukupno:</td>
-          <td>{{ ukupno }}</td>
-        </tr>
-      </tfoot>
     </table>
   </div>
 

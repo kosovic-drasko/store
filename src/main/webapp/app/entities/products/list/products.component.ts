@@ -27,7 +27,8 @@ export class ProductsComponent implements OnInit {
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
-  ukupno?: number;
+  articalName?: string;
+
   constructor(
     protected productsService: ProductsService,
     protected activatedRoute: ActivatedRoute,
@@ -58,13 +59,17 @@ export class ProductsComponent implements OnInit {
         },
       });
   }
-
+  loadName(): void {
+    this.queryBackendName().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
   load(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
-        this.ukupno = res.body?.reduce((acc, products) => acc + products.articalPrice!, 0);
-        console.log('To je ukupno', this.ukupno);
       },
     });
   }
@@ -116,6 +121,26 @@ export class ProductsComponent implements OnInit {
     this.isLoading = true;
     const pageToLoad: number = page ?? 1;
     const queryObject: any = {
+      page: pageToLoad - 1,
+      size: this.itemsPerPage,
+      sort: this.getSortQueryParam(predicate, ascending),
+    };
+    filterOptions?.forEach(filterOption => {
+      queryObject[filterOption.name] = filterOption.values;
+    });
+    return this.productsService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+  }
+
+  protected queryBackendName(
+    page?: number,
+    predicate?: string,
+    ascending?: boolean,
+    filterOptions?: IFilterOption[]
+  ): Observable<EntityArrayResponseType> {
+    this.isLoading = true;
+    const pageToLoad: number = page ?? 1;
+    const queryObject: any = {
+      'articalName.equals': this.articalName,
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       sort: this.getSortQueryParam(predicate, ascending),
