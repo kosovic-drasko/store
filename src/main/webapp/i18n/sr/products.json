@@ -1,0 +1,25 @@
+{
+  "storeApp": {
+    "products": {
+      "home": {
+        "title": "Products",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Products",
+        "createOrEditLabel": "Kreirajte ili izmenite Products",
+        "notFound": "No Products found"
+      },
+      "created": "Kreiran je novi Products pod nazivom {{ param }}",
+      "updated": "Products pod nazivom {{ param }} je ažuriran",
+      "deleted": "Products pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Products pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Products"
+      },
+      "id": "ID",
+      "articalName": "Artical Name",
+      "articalPrice": "Artical Price"
+    }
+  }
+}

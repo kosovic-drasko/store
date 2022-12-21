@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-products-heading" data-cy="ProductsCreateUpdateHeading" jhiTranslate="storeApp.products.home.createOrEditLabel">
+        Kreirajte ili izmenite Products
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="storeApp.products.articalName" for="field_articalName">Artical Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="articalName"
+            id="field_articalName"
+            data-cy="articalName"
+            formControlName="articalName"
+          />
+          <div *ngIf="editForm.get('articalName')!.invalid && (editForm.get('articalName')!.dirty || editForm.get('articalName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('articalName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              Polje je obavezno.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="storeApp.products.articalPrice" for="field_articalPrice">Artical Price</label>
+          <input
+            type="number"
+            class="form-control"
+            name="articalPrice"
+            id="field_articalPrice"
+            data-cy="articalPrice"
+            formControlName="articalPrice"
+          />
+          <div
+            *ngIf="editForm.get('articalPrice')!.invalid && (editForm.get('articalPrice')!.dirty || editForm.get('articalPrice')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('articalPrice')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              Polje je obavezno.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('articalPrice')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              Polje mora biti broj.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Otkaži</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sačuvaj</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
