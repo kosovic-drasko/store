@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20221221061753",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "articalName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "articalPrice",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Products",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

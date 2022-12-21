@@ -12,7 +12,7 @@
 
 eureka:
   instance:
-    hostname: store-mn.herokuapp.com
+    hostname: prodavnica-cg.herokuapp.com
     non-secure-port: 80
     prefer-ip-address: false
 
