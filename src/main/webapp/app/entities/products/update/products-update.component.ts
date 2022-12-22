@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { ProductsFormService, ProductsFormGroup } from './products-form.service';
-import { IProducts } from '../products.model';
+import { IProducts, Products } from '../products.model';
 import { ProductsService } from '../service/products.service';
+import { FormBuilder } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-products-update',
@@ -15,50 +16,105 @@ import { ProductsService } from '../service/products.service';
 export class ProductsUpdateComponent implements OnInit {
   @Input() public id: any;
   @Input() public articalName: any;
-  @Input() public articakPrice: any;
+  @Input() public articalPrice: any;
   isSaving = false;
   products: IProducts | null = null;
 
-  editForm: ProductsFormGroup = this.productsFormService.createProductsFormGroup();
+  //   editForm: ProductsFormGroup = this.productsFormService.createProductsFormGroup();
+  //
+  //   constructor(
+  //     protected productsService: ProductsService,
+  //     protected productsFormService: ProductsFormService,
+  //     protected activatedRoute: ActivatedRoute
+  //   ) {}
+  //
+  //   ngOnInit(): void {
+  //     this.activatedRoute.data.subscribe(({ products }) => {
+  //       this.products = products;
+  //       if (products) {
+  //         this.updateForm(products);
+  //       }
+  //     });
+  //   }
+  //
+  //   previousState(): void {
+  //     window.history.back();
+  //   }
+  //
+  //   save(): void {
+  //     this.isSaving = true;
+  //     const products = this.productsFormService.getProducts(this.editForm);
+  //     if (products.id !== null) {
+  //       this.subscribeToSaveResponse(this.productsService.update(products));
+  //     } else {
+  //       this.subscribeToSaveResponse(this.productsService.create(products));
+  //     }
+  //   }
+  //
+  //   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProducts>>): void {
+  //     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+  //       // next: () => this.onSaveSuccess(),
+  //       error: () => this.onSaveError(),
+  //     });
+  //   }
+  //
+  //   protected onSaveSuccess(): void {
+  //     this.previousState();
+  //   }
+  //
+  //   protected onSaveError(): void {
+  //     // Api for inheritance.
+  //   }
+  //
+  //   protected onSaveFinalize(): void {
+  //     this.isSaving = false;
+  //   }
+  //
+  //   protected updateForm(products: IProducts): void {
+  //     this.products = products;
+  //     this.productsFormService.resetForm(this.editForm, products);
+  //   }
+  // }
+  editForm = this.fb.group({
+    id: [],
+    articalName: [],
+    articalPrice: [],
+  });
 
   constructor(
-    protected productsService: ProductsService,
-    protected productsFormService: ProductsFormService,
-    protected activatedRoute: ActivatedRoute
+    protected productService: ProductsService,
+    protected activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder,
+    protected activeModal: NgbActiveModal
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ products }) => {
-      this.products = products;
-      if (products) {
-        this.updateForm(products);
-      }
-    });
+    this.updateForm();
   }
 
   previousState(): void {
-    window.history.back();
+    this.activeModal.close();
   }
 
   save(): void {
     this.isSaving = true;
-    const products = this.productsFormService.getProducts(this.editForm);
-    if (products.id !== null) {
-      this.subscribeToSaveResponse(this.productsService.update(products));
+    const product = this.createFromForm();
+    if (product.id !== undefined) {
+      this.subscribeToSaveResponse(this.productService.update(product));
     } else {
-      this.subscribeToSaveResponse(this.productsService.create(products));
+      this.subscribeToSaveResponse(this.productService.create(product));
     }
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProducts>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      // next: () => this.onSaveSuccess(),
+      next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),
     });
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.activeModal.close();
   }
 
   protected onSaveError(): void {
@@ -69,8 +125,20 @@ export class ProductsUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  protected updateForm(products: IProducts): void {
-    this.products = products;
-    this.productsFormService.resetForm(this.editForm, products);
+  protected updateForm(): void {
+    this.editForm.patchValue({
+      id: this.id,
+      articalName: this.articalName,
+      articalPrice: this.articalPrice,
+    });
+  }
+
+  protected createFromForm(): IProducts {
+    return {
+      ...new Products(this.id, this.articalName, this.articalPrice),
+      id: this.editForm.get(['id'])!.value,
+      articalName: this.editForm.get(['articalName'])!.value,
+      articalPrice: this.editForm.get(['articalPrice'])!.value,
+    };
   }
 }

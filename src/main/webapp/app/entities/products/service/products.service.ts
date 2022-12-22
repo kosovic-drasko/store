@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IProducts, NewProducts } from '../products.model';
+import { IProducts } from '../products.model';
 
 export type PartialUpdateProducts = Partial<IProducts> & Pick<IProducts, 'id'>;
 
@@ -18,7 +18,7 @@ export class ProductsService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
-  create(products: NewProducts): Observable<EntityResponseType> {
+  create(products: IProducts): Observable<EntityResponseType> {
     return this.http.post<IProducts>(this.resourceUrl, products, { observe: 'response' });
   }
 
