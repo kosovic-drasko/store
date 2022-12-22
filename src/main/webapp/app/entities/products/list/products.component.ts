@@ -60,6 +60,7 @@ export class ProductsComponent implements OnInit {
       .subscribe({
         next: (res: EntityArrayResponseType) => {
           this.onResponseSuccess(res);
+          this.load();
         },
       });
   }
