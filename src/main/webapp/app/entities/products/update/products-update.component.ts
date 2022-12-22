@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -13,6 +13,9 @@ import { ProductsService } from '../service/products.service';
   templateUrl: './products-update.component.html',
 })
 export class ProductsUpdateComponent implements OnInit {
+  @Input() public id: any;
+  @Input() public articalName: any;
+  @Input() public articakPrice: any;
   isSaving = false;
   products: IProducts | null = null;
 
@@ -49,7 +52,7 @@ export class ProductsUpdateComponent implements OnInit {
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProducts>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
+      // next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),
     });
   }

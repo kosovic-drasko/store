@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IProducts, NewProducts } from '../products.model';
@@ -26,6 +26,9 @@ export type ProductsFormGroup = FormGroup<ProductsFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class ProductsFormService {
+  @Input() public id: any;
+  @Input() public articalName: any;
+  @Input() public articalPrice: any;
   createProductsFormGroup(products: ProductsFormGroupInput = { id: null }): ProductsFormGroup {
     const productsRawValue = {
       ...this.getFormDefaults(),

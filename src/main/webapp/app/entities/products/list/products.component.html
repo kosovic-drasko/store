@@ -8,12 +8,7 @@
         <span jhiTranslate="storeApp.products.home.refreshListLabel">Refresh list</span>
       </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-products"
-        [routerLink]="['/products/new']"
-      >
+      <button id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-products" (click)="add()">
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="storeApp.products.home.createLabel"> Kreiraj novi Products </span>
       </button>
@@ -25,7 +20,7 @@
     name="articalName"
     id="field_articalName"
     data-cy="articalName"
-    [(ngModel)]="articalName"
+    [(ngModel)]="articalNames"
     (input)="loadName()"
   />
   <jhi-alert-error></jhi-alert-error>
@@ -84,7 +79,7 @@
 
               <button
                 type="submit"
-                [routerLink]="['/products', products.id, 'edit']"
+                (click)="update(products.id, products.articalName, products.articalPrice)"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >
@@ -100,6 +95,13 @@
           </td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td>Ukupno:</td>
+          <td>{{ ukupno }}</td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 

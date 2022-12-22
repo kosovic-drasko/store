@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
@@ -11,15 +11,19 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ProductsService } from '../service/products.service';
 import { ProductsDeleteDialogComponent } from '../delete/products-delete-dialog.component';
 import { FilterOptions, IFilterOptions, IFilterOption } from 'app/shared/filter/filter.model';
+import { ProductsUpdateComponent } from '../update/products-update.component';
 
 @Component({
   selector: 'jhi-products',
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
+  @Input() public id: any;
+  @Input() public articalName: any;
+  @Input() public articalPrice: any;
   products?: IProducts[];
   isLoading = false;
-
+  ukupno?: number;
   predicate = 'id';
   ascending = true;
   filters: IFilterOptions = new FilterOptions();
@@ -27,7 +31,7 @@ export class ProductsComponent implements OnInit {
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
-  articalName?: string;
+  articalNames?: string;
 
   constructor(
     protected productsService: ProductsService,
@@ -70,6 +74,7 @@ export class ProductsComponent implements OnInit {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
+        this.ukupno = res.body?.reduce((acc, products) => acc + products.articalPrice!, 0);
       },
     });
   }
@@ -175,5 +180,22 @@ export class ProductsComponent implements OnInit {
     } else {
       return [predicate + ',' + ascendingQueryParam];
     }
+  }
+
+  update(id?: number, articalName?: string | null, articalPrice?: number | null): void {
+    const modalRef = this.modalService.open(ProductsUpdateComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.id = id;
+    modalRef.componentInstance.articalName = articalName;
+    modalRef.componentInstance.articalPrice = articalPrice;
+
+    modalRef.closed.subscribe(() => {
+      this.load();
+    });
+  }
+  add(): void {
+    const modalRef = this.modalService.open(ProductsUpdateComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.closed.subscribe(() => {
+      this.load();
+    });
   }
 }
