@@ -67,6 +67,7 @@ export class ProductsComponent implements OnInit {
     this.queryBackendName().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
+        this.ukupno = res.body?.reduce((acc, products) => acc + products.articalPrice!, 0);
       },
     });
   }
@@ -145,7 +146,7 @@ export class ProductsComponent implements OnInit {
     this.isLoading = true;
     const pageToLoad: number = page ?? 1;
     const queryObject: any = {
-      'articalName.equals': this.articalName,
+      'articalName.equals': this.articalNames,
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       sort: this.getSortQueryParam(predicate, ascending),
