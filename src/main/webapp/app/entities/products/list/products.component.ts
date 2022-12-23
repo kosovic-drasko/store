@@ -147,7 +147,7 @@ export class ProductsComponent implements OnInit {
     this.isLoading = true;
     const pageToLoad: number = page ?? 1;
     const queryObject: any = {
-      'articalName.equals': this.articalNames,
+      'articalName.contains': this.articalNames,
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       sort: this.getSortQueryParam(predicate, ascending),
